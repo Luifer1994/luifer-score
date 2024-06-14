@@ -42,17 +42,13 @@ export default defineConfig(({ mode }) => {
       }),
       enableCDN(env.VITE_CDN_DEPS),
       VitePWA({
-        mode: "production",
-        base: "/",
-        srcDir: "src",
-        filename: "sw.ts",
-        includeAssets: ["/luifer-score/favicon.ico"],
-        strategies: "injectManifest",
+        registerType: 'autoUpdate',
         manifest: {
           name: "Luifer score",
           short_name: "Luifer score",
           description: "Aplicación para llevar el control de los partidos de futbol",
           theme_color: "#ffffff",
+          start_url: "/luifer-score/",
           icons: [
             {
               src: "/luifer-score/icon-192x192.png",
@@ -65,7 +61,36 @@ export default defineConfig(({ mode }) => {
               type: "image/png",
             },
           ],
-        }
+        },
+        workbox: {
+          runtimeCaching: [
+            {
+              urlPattern: ({ request }) => request.destination === 'document',
+              handler: 'NetworkFirst',
+              options: {
+                cacheName: 'html-cache',
+              },
+            },
+            {
+              urlPattern: ({ request }) => request.destination === 'script' || request.destination === 'style',
+              handler: 'StaleWhileRevalidate',
+              options: {
+                cacheName: 'assets-cache',
+              },
+            },
+            {
+              urlPattern: ({ request }) => request.destination === 'image',
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'image-cache',
+                expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+                },
+              },
+            },
+          ],
+        },
       }),
     ],
     resolve: {
