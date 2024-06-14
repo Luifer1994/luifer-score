@@ -146,7 +146,7 @@ export const useTeam = () => {
            data-key="${key}"
            data-id="${fixtureId}"
            data-theme=""
-           data-refresh="60"
+           data-refresh="300"
            data-show-errors="false"
            data-show-logos="true">
       </div>
@@ -167,7 +167,7 @@ export const useTeam = () => {
         data-league=""
         data-season=""
         data-theme=""
-        data-refresh="60"
+        data-refresh="300"
         data-show-toolbar="true"
         data-show-errors="false"
         data-show-logos="true"

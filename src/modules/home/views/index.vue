@@ -1,19 +1,19 @@
 <template>
-  <div class="px-3 mt-5 font-sans w-full max-w-lg mx-auto" v-if="isRendered">
+  <div class="mt-5 font-sans w-full mx-1" v-if="isRendered">
     <p class="text-lg font-bold">
-      {{ fixture ? matchStatus(fixture.fixture.status.short) : 'Último partido jugado' }} de tú equipo <van-icon
+      {{ fixture ? matchStatus(fixture.fixture.status.short) : 'Último partido jugado' }} de tu equipo <van-icon
         name="like" class="text-red-500" />
     </p>
-    <MatchScore v-if="fixture" :homeTeam="homeTeam" :awayTeam="awayTeam" :homeTeamScore="homeScore"
-      :awayTeamScore="awayScore" :liveTime="liveTime" :status="status" :eventId="fixture.fixture.id"
-      @event-click="handleEventClick" />
+    <div class="mb-5 w-full px-2">
+      <MatchScore v-if="fixture" :homeTeam="homeTeam" :awayTeam="awayTeam" :homeTeamScore="homeScore"
+        :awayTeamScore="awayScore" :liveTime="liveTime" :status="status" :eventId="fixture.fixture.id"
+        @event-click="handleEventClick" />
+    </div>
 
     <div v-if="allFixtures.length">
-      <p class="text-lg font-bold my-5">
-        Partidos en vivo
-      </p>
+      <p class="text-lg font-bold my-5">Partidos en vivo</p>
 
-      <van-tabs v-model:active="active" class="mt-5 w-full" animated>
+      <van-tabs v-model:active="active" class="mt-5 w-full" animated sticky>
         <van-tab v-for="(fixture, index) in allFixtures" :key="index" class="w-full">
           <template #title>
             <div class="flex flex-col items-center w-full">
@@ -22,7 +22,7 @@
               <span class="text-sm">{{ fixture.country.name }}</span>
             </div>
           </template>
-          <div class="w-full">
+          <div class="w-full mb-5 w-full px-2">
             <div v-for="(league, index) in fixture.leagues" :key="index">
               <div class="flex items-center my-5 w-full">
                 <van-image class="h-5 w-5 mr-2" fit="cover" lazy-load :src="league.league.logo"
@@ -31,11 +31,13 @@
               </div>
 
               <div class="mt-2 w-full">
-                <div v-for="(match, index) in league.fixtures" :key="index" class="my-5 w-full">
-                  <MatchScore :homeTeam="match.teams.home" :awayTeam="match.teams.away"
-                    :homeTeamScore="match.goals.home" :awayTeamScore="match.goals.away"
-                    :liveTime="match.fixture.status.elapsed" :status="match.fixture.status.short" class="w-full"
-                    :eventId="match.fixture.id" @event-click="handleEventClick" />
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+                  <div v-for="(match, index) in league.fixtures" :key="index" class="w-full px-2">
+                    <MatchScore :homeTeam="match.teams.home" :awayTeam="match.teams.away"
+                      :homeTeamScore="match.goals.home" :awayTeamScore="match.goals.away"
+                      :liveTime="match.fixture.status.elapsed" :status="match.fixture.status.short"
+                      :eventId="match.fixture.id" @event-click="handleEventClick" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -44,18 +46,16 @@
       </van-tabs>
     </div>
 
-    <WidgetAllMatch  />
-
+    <WidgetAllMatch class="mt-5" />
   </div>
 
   <van-popup v-model:show="show" position="right" :style="{ width: '95%', height: '100%' }" closeable>
-
     <div class="w-full h-full">
       <SoccerField :eventId />
     </div>
-
   </van-popup>
 </template>
+
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
