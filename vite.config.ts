@@ -10,6 +10,7 @@ import mockDevServerPlugin from "vite-plugin-mock-dev-server";
 import vueSetupExtend from "vite-plugin-vue-setup-extend";
 import viteCompression from "vite-plugin-compression";
 import { createHtmlPlugin } from "vite-plugin-html";
+import { VitePWA } from "vite-plugin-pwa";
 import { enableCDN } from "./build/cdn";
 
 // 当前工作目录路径
@@ -50,7 +51,58 @@ export default defineConfig(({ mode }) => {
         }
       }),
       // 生产环境默认不启用 CDN 加速
-      enableCDN(env.VITE_CDN_DEPS)
+      enableCDN(env.VITE_CDN_DEPS),
+      // PWA plugin
+      VitePWA({
+        registerType: 'autoUpdate',
+        manifest: {
+          name: 'Luifer score',
+          short_name: 'Luifer score',
+          description: 'Aplicación para llevar el control de los partidos de futbol',
+          theme_color: '#ffffff',
+          icons: [
+            {
+              src: 'icon-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'icon-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
+        },
+        workbox: {
+          runtimeCaching: [
+            {
+              urlPattern: ({ request }) => request.destination === 'document',
+              handler: 'NetworkFirst',
+              options: {
+                cacheName: 'html-cache',
+              },
+            },
+            {
+              urlPattern: ({ request }) => request.destination === 'script' || request.destination === 'style',
+              handler: 'StaleWhileRevalidate',
+              options: {
+                cacheName: 'assets-cache',
+              },
+            },
+            {
+              urlPattern: ({ request }) => request.destination === 'image',
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'image-cache',
+                expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+                },
+              },
+            },
+          ],
+        },
+      })
     ],
     resolve: {
       alias: {

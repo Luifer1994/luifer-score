@@ -1,1 +1,0 @@
-import{u as e}from"./useCountry-wZE5Z3vg.js";import{d as t,a as n,o as a,c as s}from"./index-nkX885Zg.js";const r=t({name:"About"}),l=t({...r,setup(u){const{getCountries:o,countries:c}=e();return n(async()=>{await o()}),(_,i)=>(a(),s("div",null,"about"))}});export{l as default};
