@@ -32,6 +32,10 @@
     "types": [
       "node",
       "vite/client"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src"
     ]
   },
   "include": [
@@ -40,7 +44,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "typings/*.d.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "src/**/*.d.ts"
   ],
   "exclude": [
     "dist",
