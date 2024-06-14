@@ -3,9 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
-    <link rel="icon" href="/luifer-score/favicon.ico" />
-    <title>Luifer Score</title>
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,user-scalable=no"
+    />
+    <link rel="icon" href="/favicon.ico" />
+    <title>
+      Luifer  score
+    </title>
   </head>
   <body>
     <div id="app">
@@ -30,7 +35,8 @@
           width: 68px;
           height: 68px;
           background-color: #41b883;
-          animation: cube-shadow-spinner 1.8s cubic-bezier(0.75, 0, 0.5, 1) infinite;
+          animation: cube-shadow-spinner 1.8s cubic-bezier(0.75, 0, 0.5, 1)
+            infinite;
         }
         @keyframes cube-shadow-spinner {
           50% {
@@ -47,7 +53,6 @@
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
-    <script src="/luifer-score/registerSW.js"></script>
     <% if (ENABLE_ERUDA === "true") { %>
     <script src="//cdn.jsdelivr.net/npm/eruda"></script>
     <script>

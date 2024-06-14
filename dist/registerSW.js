@@ -1,1 +1,0 @@
-if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('https://luifer1994.github.io/luifer-score/sw.js', { scope: 'https://luifer1994.github.io/luifer-score/' })})}
